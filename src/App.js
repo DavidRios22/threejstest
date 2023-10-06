@@ -1,21 +1,32 @@
-import './App.css';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import "./App.css"
+import { Canvas } from "@react-three/fiber"
+import { OrbitControls, AsciiRenderer} from "@react-three/drei"
+import Cube from "./Cube"
 
 function App() {
-
+  
+  
   return (
-    <div id='canvas'>
-    <Canvas>
-      <ambientLight intensity={0.1} />
-      <OrbitControls />
-      <mesh>
-        <boxGeometry args={[1, 1, 1]}/>
-        <meshNormalMaterial />
-      </mesh>
-    </Canvas>
+    <div className="box">
+      <Canvas>
+        <axesHelper
+          scale={2}
+          position={[0, 0, 0]}
+          onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}
+        />
+
+        {/* <OrbitControls /> */}
+        <AsciiRenderer />
+        <color attach="background" args={["black"]} />
+        <Cube />
+      </Canvas>
+      <div className="loading">
+        <p>|----------|</p>
+        <p>||||||||||||||||||</p>
+        <p>|----------|</p>
+      </div>
     </div>
   )
 }
 
-export default App;
+export default App
