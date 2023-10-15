@@ -1,9 +1,8 @@
 import { useRef } from "react"
-import { useFrame, useThree } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 import { Center } from "@react-three/drei"
 
 export default function Cube() {
-  const { width, height } = useThree((state) => state.viewport)
 
 
   const cubeRef = useRef()
@@ -13,7 +12,7 @@ export default function Cube() {
   })
 
   return (
-    <Center position={[0.000082*width - 0.3, 0,0]}>
+    <Center position={[-0.3, 0,0]}>
       <mesh
         ref={cubeRef}
         rotation-x={Math.PI * 0.25}
