@@ -29,16 +29,8 @@ body,
   left: 10px;
   text-align: center;
   font-size: 9px;
-
-}
-
-.continue {
-  position: absolute;  
   margin: 0;
-  left: 590px;
-  bottom: 287px;
-  font-size: 9px;
-  color: black;
+
 }
 
 

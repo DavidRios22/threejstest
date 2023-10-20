@@ -1,58 +1,89 @@
 import "./App.css"
 import { useState, useEffect } from "react"
 import { Canvas } from "@react-three/fiber"
-import { AsciiRenderer} from "@react-three/drei"
+import { AsciiRenderer, OrbitControls } from "@react-three/drei"
 import Cube from "./Cube"
 
 function App() {
 
-  const [pipeColors, setPipeColors] = useState(Array(10).fill('black'));
+  const [pipeColors, setPipeColors] = useState(Array(10).fill("black"))
+  const [continueChange, setContinueChange] = useState(true)
+  const [isContinueGreen, setIsContinueGreen] = useState(true)
+
+  const continueStyle = {
+    color: isContinueGreen ? "#04FF00" : "black",
+    margin: 0,
+    textDecoration: "underline",
+  }
+
 
   useEffect(() => {
+
+    const continueIfElse = () => {
+      setContinueChange(false)
+    }
+    setTimeout(continueIfElse, 4600)
+
     const delay = setTimeout(() => {
       const revealPipes = () => {
         setPipeColors((prevColors) => {
-          const updatedColors = [...prevColors];
-          const nextIndex = updatedColors.findIndex((color) => color === 'black');
+          const updatedColors = [...prevColors]
+          const nextIndex = updatedColors.findIndex(
+            (color) => color === "black"
+          )
           if (nextIndex >= 0) {
-            updatedColors[nextIndex] = 'white';
+            updatedColors[nextIndex] = "white"
           }
-          return updatedColors;
+          return updatedColors
         })
-      };
+      }
 
-      const intervalId = setInterval(revealPipes, 200);
+      const intervalId = setInterval(revealPipes, 200)
+
+      setTimeout(() => {
+        clearInterval(intervalId)
+
+        // Set all pipes to black one second after they have appeared
+        setTimeout(() => {
+          setPipeColors(Array(10).fill("black"))
+        }, 1000)
+      }, 2000)
+
+      const flashingInterval = setInterval(() => {
+        setIsContinueGreen((prevState) => !prevState)
+      }, 600)
+
 
       return () => {
-        clearInterval(intervalId);
-      };
-    }, 1000);
+        clearInterval(intervalId)
+        clearInterval(flashingInterval)
+      }
+    }, 1000)
 
     return () => {
-      clearTimeout(delay);
-    };
-  }, []);
+      clearTimeout(delay)
+    }
+  }, [])
 
-  
-
-
-
-  
   return (
     <div className="box">
       <Canvas>
         <AsciiRenderer />
+        <OrbitControls />
         <color attach="background" args={["black"]} />
         <Cube />
       </Canvas>
       <div className="loading">
-        {pipeColors.map((color, index) => (
-          <span key={index} style={{ color }}>
-            {"/"}
-          </span>
-        ))}
+        {continueChange ? (
+          pipeColors.map((color, index) => (
+            <span key={index} style={{ color }}>
+              {"/"}
+            </span>
+          ))
+        ) : (
+          <p style={continueStyle}>continue</p>
+        )}
       </div>
-      <p className="continue">continue</p>
     </div>
   )
 }
