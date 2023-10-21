@@ -1,11 +1,10 @@
 import "./App.css"
 import { useState, useEffect } from "react"
 import { Canvas } from "@react-three/fiber"
-import { AsciiRenderer, OrbitControls } from "@react-three/drei"
+import { AsciiRenderer } from "@react-three/drei"
 import Cube from "./Cube"
 
 function App() {
-
   const [pipeColors, setPipeColors] = useState(Array(10).fill("black"))
   const [continueChange, setContinueChange] = useState(true)
   const [isContinueGreen, setIsContinueGreen] = useState(true)
@@ -14,11 +13,14 @@ function App() {
     color: isContinueGreen ? "#04FF00" : "black",
     margin: 0,
     textDecoration: "underline",
+    cursor: "pointer"
   }
 
+  const continueClick = () => {
+    console.log("hello");
+  }
 
   useEffect(() => {
-
     const continueIfElse = () => {
       setContinueChange(false)
     }
@@ -53,7 +55,6 @@ function App() {
         setIsContinueGreen((prevState) => !prevState)
       }, 600)
 
-
       return () => {
         clearInterval(intervalId)
         clearInterval(flashingInterval)
@@ -69,7 +70,6 @@ function App() {
     <div className="box">
       <Canvas>
         <AsciiRenderer />
-        <OrbitControls />
         <color attach="background" args={["black"]} />
         <Cube />
       </Canvas>
@@ -81,7 +81,7 @@ function App() {
             </span>
           ))
         ) : (
-          <p style={continueStyle}>continue</p>
+          <p onClick={continueClick} style={continueStyle}>continue</p>
         )}
       </div>
     </div>
